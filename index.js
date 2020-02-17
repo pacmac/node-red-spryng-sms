@@ -2,9 +2,13 @@ module.exports = function(RED) {
 
   var request = require('request');
   const cl = console.log;
-  const token = `Bearer ${process.env.spryng_token}`;
+  
   
   function spryngMain(config) {
+
+    for(var key in config){
+      this[key] = config[key];
+    }
 
     function send(node,msg){
       
@@ -21,13 +25,13 @@ module.exports = function(RED) {
         
         body: JSON.stringify({
           "body"          : msg.payload.body,
-          "encoding"      : msg.payload.encoding || "unicode",
-          "originator"    : msg.payload.originator || "Spryng",
+          "encoding"      : msg.payload.encoding || this.encoding,
+          "originator"    : msg.payload.originator || this.originator,
           "recipients"    : msg.payload.recipients,
-          "route"         : msg.payload.route || "business",
+          "route"         : msg.payload.route || this.route,
           "scheduled_at"  : msg.payload.scheduled_at || "2020-01-01T15:00:00+00:00"
         })
-      
+        
       };
       
       request(options, function (error, response) { 
@@ -52,8 +56,9 @@ module.exports = function(RED) {
       });
     }    
     
-    
     var node = this;
+    const token = this.token || `Bearer ${process.env.spryng_token}`;
+    
     RED.nodes.createNode(node,config);
     node.on('input', function(msg) {
       var action = msg.topic;

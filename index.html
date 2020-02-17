@@ -6,8 +6,11 @@
     color: '#a6bbcf',
     
     defaults: {
-      name    : {value:"Sprying"},
-      token   : {value:""}
+      name        : {value:"Sprying"},
+      token       : {value:""},
+      originator  : {value:"Spryng"},
+      route       : {value:"business"},
+      encoding    : {value:"unicode"}
     },
     
     inputs    : 1,
@@ -22,13 +25,28 @@
 
 <script type="text/html" data-template-name="spryng-sms">
   <div class="form-row">
-    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-    <input type="text" id="node-input-name" placeholder="Name">
+    <label for="node-input-name"><i class="icon-tag"></i>Name</label>
+    <input type="text" id="node-input-name" placeholder="Node Name">
   </div>
 
   <div class="form-row">
     <label for="node-input-token"><i class="icon-tag"></i> Token</label>
-    <input type="text" id="node-input-token" placeholder="token">
+    <input type="text" id="node-input-token" placeholder="API Token">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-originator"><i class="icon-tag"></i> Originator</label>
+    <input type="text" id="node-input-originator" placeholder="i.e 6512345678">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-route"><i class="icon-tag"></i> Originator</label>
+    <input type="text" id="node-input-route" placeholder="Route">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-encoding"><i class="icon-tag"></i> Encoding</label>
+    <input type="text" id="node-input-encoding" placeholder="Encoding">
   </div>
 
 </script>
