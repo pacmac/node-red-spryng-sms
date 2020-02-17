@@ -43,7 +43,7 @@ module.exports = function(RED) {
           "originator"    : msg.payload.originator || node.originator,
           "recipients"    : msg.payload.recipients,
           "route"         : msg.payload.route || node.route,
-          "scheduled_at"  : this.atomDate(msg.payload.scheduled_at) || this.atomDate()
+          "scheduled_at"  : node.atomDate(msg.payload.scheduled_at) || node.atomDate()
         })
         
       };
