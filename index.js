@@ -2,20 +2,30 @@ module.exports = function(RED) {
 
   var request = require('request');
   const cl = console.log;
-  
-  
   function spryngMain(config) {
 
-    console.log('@@@@@')
-    console.log(config);
+    this.atomDate = function(date){
+      // '2020-01-17T19:34:18-08:00'
+      function pad(val){
+        return val.toString().padStart(2,'0')
+      }
+      date = date || new Date();
+      var raw = (date.getTimezoneOffset()/60).toString();
+      var sign = raw.slice(0,1);
+      var osh = pad(raw.slice(1));
+      var osm = pad((date.getTimezoneOffset()%60).toString());
+      var os = `${sign}${osh}:${osm}`
+      return `${date.getFullYear()}-${pad(date.getMonth())}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${os}`;
+    } 
+
+    console.log('@@ SPRYNG-SMS CONFIG:')
     for(var key in config){
       this[key] = config[key];
       console.log(key,config[key]);
     }
 
     function send(node,msg){
-      
-      
+    
       msg.payload.recipients = msg.payload.recipients.split(',');
       
       var options = {
@@ -33,7 +43,7 @@ module.exports = function(RED) {
           "originator"    : msg.payload.originator || node.originator,
           "recipients"    : msg.payload.recipients,
           "route"         : msg.payload.route || node.route,
-          "scheduled_at"  : msg.payload.scheduled_at || new Date().toISOString().replace('Z','')
+          "scheduled_at"  : this.atomDate(msg.payload.scheduled_at) || this.atomDate()
         })
         
       };
@@ -41,7 +51,7 @@ module.exports = function(RED) {
       request(options, function (error, response) { 
         if (error) throw new Error(error);
         console.log(response.body);
-        
+      
         /*
           {"message":"The given data was invalid.","errors":{"credits":["User has insufficient credits; Currently: 0.0 Needed: 1.2"]}}
           
