@@ -8,7 +8,7 @@ module.exports = function(RED) {
 
     function send(node,msg){
       
-      var recipients = msg.topic.split(',');
+      msg.payload.recipients = msg.payload.recipients.split(',');
       
       var options = {
         'method': 'POST',
@@ -20,12 +20,12 @@ module.exports = function(RED) {
         },
         
         body: JSON.stringify({
-          "body"          : "Pete's Test Message.",
-          "encoding"      : "unicode",
-          "originator"    : "Spryng",
-          "recipients"    : recipients,
-          "route"         : "business",
-          "scheduled_at"  : "2019-01-01T15:00:00+00:00"
+          "body"          : msg.payload.body,
+          "encoding"      : msg.payload.encoding || "unicode",
+          "originator"    : msg.payload.originator || "Spryng",
+          "recipients"    : msg.payload.recipients,
+          "route"         : msg.payload.route || "business",
+          "scheduled_at"  : msg.payload.scheduled_at || "2020-01-01T15:00:00+00:00"
         })
       
       };
@@ -33,6 +33,7 @@ module.exports = function(RED) {
       request(options, function (error, response) { 
         if (error) throw new Error(error);
         console.log(response.body);
+        
         /*
           {"message":"The given data was invalid.","errors":{"credits":["User has insufficient credits; Currently: 0.0 Needed: 1.2"]}}
         */
@@ -40,7 +41,7 @@ module.exports = function(RED) {
         node.send({
           payload : {
             body        : JSON.parse(response.body),
-            recipients  : recipients
+            recipients  : msg.payload.recipients
           },
           
           topic   : msg.payload,
@@ -53,9 +54,9 @@ module.exports = function(RED) {
     
     
     RED.nodes.createNode(this,config);
-    var node = this;
     
     node.on('input', function(msg) {
+      var action = msg.topic;
       send(node,msg);
     });
   

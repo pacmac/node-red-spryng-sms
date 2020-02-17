@@ -1,15 +1,15 @@
 <script type="text/javascript">
 
   RED.nodes.registerType('spryng-sms',{
-    category: 'devices',
+    category: 'network',
     color: '#a6bbcf',
     defaults: {
-      name: {value:""},
-      recipients: {value:""}
+      name: {value:"Sprying"},
+      token: {value:""}
     },
     inputs:1,
     outputs:1,
-    icon: "font-awesome/fa-thermometer-full",
+    icon: "envelope.png",
     label: function() {
       return this.name||"spryng-sms";
     }
@@ -24,12 +24,12 @@
   </div>
 
   <div class="form-row">
-    <label for="node-input-recipients"><i class="icon-tag"></i> Recipients</label>
-    <input type="text" id="node-input-recipients" placeholder="recipients">
+    <label for="node-input-token"><i class="icon-tag"></i>Token</label>
+    <input type="text" id="node-input-token" placeholder="token">
   </div>
 
 </script>
 
 <script type="text/html" data-help-name="spryng-sms">
-  <p>Jinou BLE Temperature & Humidity Sensor SID AA20</p>
+  <p>Spryng SMS Messsage Service</p>
 </script>
