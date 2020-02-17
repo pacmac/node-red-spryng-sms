@@ -6,7 +6,7 @@ module.exports = function(RED) {
   
   function spryngMain(config) {
 
-    function send(node,msg){
+    function send(msg){
       
       msg.payload.recipients = msg.payload.recipients.split(',');
       
@@ -57,7 +57,7 @@ module.exports = function(RED) {
     
     node.on('input', function(msg) {
       var action = msg.topic;
-      send(node,msg);
+      send(msg);
     });
   
   }
