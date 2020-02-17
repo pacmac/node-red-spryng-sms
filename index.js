@@ -53,8 +53,8 @@ module.exports = function(RED) {
     }    
     
     
-    RED.nodes.createNode(this,config);
-    
+    var node = this;
+    RED.nodes.createNode(node,config);
     node.on('input', function(msg) {
       var action = msg.topic;
       send(this,msg);
