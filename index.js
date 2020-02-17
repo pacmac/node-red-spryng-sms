@@ -48,6 +48,8 @@ module.exports = function(RED) {
         
       };
       
+      cl(options.body);
+      
       request(options, function (error, response) { 
         if (error) throw new Error(error);
         console.log(response.body);
