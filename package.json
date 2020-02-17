@@ -1,0 +1,30 @@
+{
+  "name": "node-red-spryng-sms",
+  "version": "1.0.0",
+  "description": "Spryng SMS Service",
+  "main": "index.html",
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  
+  "author": "PAC",
+  
+  "license": "ISC",
+  
+  "node-red": {
+    "nodes": {
+      "spryng-sms": "index.js"
+    }
+  },
+  
+  "dependencies": {
+    "@abandonware/noble": "*"
+  },
+
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/pacmac/node-red-spryng-sms.git"
+  }
+
+}
