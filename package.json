@@ -19,7 +19,7 @@
   },
   
   "dependencies": {
-    "@abandonware/noble": "*"
+    "request": "*"
   },
 
   "repository": {
