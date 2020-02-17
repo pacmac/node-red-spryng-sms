@@ -60,8 +60,8 @@ module.exports = function(RED) {
     }    
     
     var node = this;
-    if(this.token) const token = `Bearer ${this.token}`;
-    else const token = `Bearer ${process.env.spryng_token}`;
+    //if(this.token) const token = `Bearer ${this.token}`;
+    const token = `Bearer ${process.env.spryng_token}`;
     
     RED.nodes.createNode(node,config);
     node.on('input', function(msg) {
