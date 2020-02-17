@@ -33,7 +33,7 @@ module.exports = function(RED) {
           "originator"    : msg.payload.originator || node.originator,
           "recipients"    : msg.payload.recipients,
           "route"         : msg.payload.route || node.route,
-          "scheduled_at"  : msg.payload.scheduled_at || new Date().toISOString()
+          "scheduled_at"  : msg.payload.scheduled_at || new Date().toISOString().replace('Z','');
         })
         
       };
@@ -44,6 +44,12 @@ module.exports = function(RED) {
         
         /*
           {"message":"The given data was invalid.","errors":{"credits":["User has insufficient credits; Currently: 0.0 Needed: 1.2"]}}
+          
+          The scheduled at does not match the format Y-m-d\TH:i:sP.
+          
+          '2020-02-17T10:57:55.901Z'
+          2020-01-01T15:00:00+00:00
+        
         */
         
         node.send({
