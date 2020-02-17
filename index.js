@@ -8,6 +8,7 @@ module.exports = function(RED) {
 
     for(var key in config){
       this[key] = config[key];
+      console.log(key,config[key]);
     }
 
     function send(node,msg){
@@ -57,7 +58,8 @@ module.exports = function(RED) {
     }    
     
     var node = this;
-    const token = this.token || `Bearer ${process.env.spryng_token}`;
+    if(this.token) const token = `Bearer ${this.token}`;
+    else const token = `Bearer ${process.env.spryng_token}`;
     
     RED.nodes.createNode(node,config);
     node.on('input', function(msg) {
