@@ -14,6 +14,7 @@ module.exports = function(RED) {
       var sign = raw.slice(0,1);
       //sign = '+';
       var osh = pad(raw.slice(1));
+      osh = 0;
       var osm = pad((date.getTimezoneOffset()%60).toString());
       var os = `${sign}${osh}:${osm}`
       return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${os}`;
