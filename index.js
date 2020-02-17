@@ -16,7 +16,7 @@ module.exports = function(RED) {
       var osh = pad(raw.slice(1));
       var osm = pad((date.getTimezoneOffset()%60).toString());
       var os = `${sign}${osh}:${osm}`
-      return `${date.getFullYear()}-${pad(date.getMonth())}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${os}`;
+      return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${os}`;
     } 
 
     console.log('@@ SPRYNG-SMS CONFIG:')
