@@ -15,6 +15,7 @@ module.exports = function(RED) {
 
     function send(node,msg){
       
+      
       msg.payload.recipients = msg.payload.recipients.split(',');
       
       var options = {
@@ -32,7 +33,7 @@ module.exports = function(RED) {
           "originator"    : msg.payload.originator || node.originator,
           "recipients"    : msg.payload.recipients,
           "route"         : msg.payload.route || node.route,
-          "scheduled_at"  : msg.payload.scheduled_at || "2020-01-01T15:00:00+00:00"
+          "scheduled_at"  : msg.payload.scheduled_at || new Date().toISOString()
         })
         
       };
