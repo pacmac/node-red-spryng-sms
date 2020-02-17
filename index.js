@@ -6,6 +6,8 @@ module.exports = function(RED) {
   
   function spryngMain(config) {
 
+    console.log('@@@@@')
+    console.log(config);
     for(var key in config){
       this[key] = config[key];
       console.log(key,config[key]);
