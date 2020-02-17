@@ -28,10 +28,10 @@ module.exports = function(RED) {
         
         body: JSON.stringify({
           "body"          : msg.payload.body,
-          "encoding"      : msg.payload.encoding || this.encoding,
-          "originator"    : msg.payload.originator || this.originator,
+          "encoding"      : msg.payload.encoding || node.encoding,
+          "originator"    : msg.payload.originator || node.originator,
           "recipients"    : msg.payload.recipients,
-          "route"         : msg.payload.route || this.route,
+          "route"         : msg.payload.route || node.route,
           "scheduled_at"  : msg.payload.scheduled_at || "2020-01-01T15:00:00+00:00"
         })
         
