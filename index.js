@@ -33,7 +33,7 @@ module.exports = function(RED) {
           "originator"    : msg.payload.originator || node.originator,
           "recipients"    : msg.payload.recipients,
           "route"         : msg.payload.route || node.route,
-          "scheduled_at"  : msg.payload.scheduled_at || new Date().toISOString().replace('Z','');
+          "scheduled_at"  : msg.payload.scheduled_at || new Date().toISOString().replace('Z','')
         })
         
       };
