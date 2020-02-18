@@ -53,14 +53,27 @@
 
 <script type="text/html" data-help-name="spryng-sms">
   <p>Spryng SMS Messsage Service</p>
+  
+  <h2>Sending Message</h2>
   <ul>
-    <li>msg.topic: send | get</li>
+    <li>msg.topic: send</li>
     <li>msg.payload.body: "Hello World"</li>
     <li>msg.payload.encoding: "unicode"</li>
     <li>msg.payload.originator: "Spryng"</li>
     <li>msg.payload.recipients: "4412345678,6512345678"</li>
     <li>msg.payload.route: "business"</li>
     <li>msg.payload.scheduled_at: "2020-01-01T15:00:00+00:00"|new Date().toISOString().replace('Z','')</li>
+  </ul>
+  
+  <h2>Cancel Message</h2>
+  <ul>
+    <li>msg.topic: cancel</li>
+    <li>msg.payload.message_uuid: "8fe177e1-4db9-4fd3-bee0-5099ae15c1a2"</li>
+  </ul>
+
+  <h2>Get Credit Balance</h2>
+  <ul>
+    <li>msg.topic: balance</li>
   </ul>
   
 </script>

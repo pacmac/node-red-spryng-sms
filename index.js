@@ -26,8 +26,6 @@ module.exports = function(RED) {
           so hard code it and adjust into the hours.
           problem is daylight saving in NL
           Also Need another fix to allow for this, probably send bad request to get TZ-oset.
-          
-          8fe177e1-4db9-4fd3-bee0-5099ae15c1a2
       */
       
       /* HACK START */
@@ -53,15 +51,14 @@ module.exports = function(RED) {
           'Authorization' : token
         }
       };
-      
+
       request(options, function (error, response) { 
         if (error) throw new Error(error);
         if(debug) cl(response.body);
         
         node.send({
           payload : {
-            body        : JSON.parse(response.body),
-            recipients  : msg.payload.recipients
+            body        : JSON.parse(response.body)
           },
           
           topic   : msg.payload,
@@ -70,6 +67,28 @@ module.exports = function(RED) {
         });      
       
       });
+    }
+
+    function cancel(node,msg){
+
+      var options = {
+        'method'          : 'POST',
+        'url'             : `https://rest.spryngsms.com/v1/messages/${msg.payload.message_uuid}/cancel`,
+        'headers'         :   {
+          'Accept'        : 'application/json',
+          'Authorization' : 'Bearer xxxxxx',
+          'Content-Type'  : 'application/json'
+        }
+      };
+      
+      request(options, function (error, response) { 
+        if (error) throw new Error(error);
+        if(debug) (response.body);
+      
+      
+      
+      });
+      
     }
 
 
@@ -114,10 +133,11 @@ module.exports = function(RED) {
         
         node.send({
           payload : {
-            body        : JSON.parse(response.body)
+            body        : JSON.parse(response.body),
+            recipients  : msg.payload.recipients
           },
           
-          topic   : 'balance',
+          topic   : msg.topic,
           _msgid  : new Date().getTime()
           
         });
@@ -128,7 +148,7 @@ module.exports = function(RED) {
     // ### MAIN
     var node = this;
     
-    if(debug)  console.log('@@ SPRYNG-SMS CONFIG:\n',JSON.stringify(config,null,2));
+    if(debug) console.log('@@ SPRYNG-SMS CONFIG:\n',JSON.stringify(config,null,2));
     for(var key in config){
       this[key] = config[key];
     }
