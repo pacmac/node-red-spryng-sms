@@ -76,7 +76,7 @@ module.exports = function(RED) {
         'url'             : `https://rest.spryngsms.com/v1/messages/${msg.payload.message_uuid}/cancel`,
         'headers'         :   {
           'Accept'        : 'application/json',
-          'Authorization' : 'Bearer xxxxxx',
+          'Authorization' : token,
           'Content-Type'  : 'application/json'
         }
       };
@@ -84,9 +84,16 @@ module.exports = function(RED) {
       request(options, function (error, response) { 
         if (error) throw new Error(error);
         if(debug) (response.body);
-      
-      
-      
+
+        node.send({
+          payload : {
+            body        : JSON.parse(response.body),
+          },
+          
+          topic   : msg.topic,
+          _msgid  : new Date().getTime()
+          
+        });
       });
       
     }
@@ -124,11 +131,8 @@ module.exports = function(RED) {
       
         /*
           {"message":"The given data was invalid.","errors":{"credits":["User has insufficient credits; Currently: 0.0 Needed: 1.2"]}}
-          
           The scheduled at does not match the format Y-m-d\TH:i:sP.
-          
           2020-01-01T15:00:00+00:00
-        
         */
         
         node.send({
