@@ -26,12 +26,14 @@ module.exports = function(RED) {
           so hard code it and adjust into the hours.
           problem is daylight saving in NL
           Also Need another fix to allow for this, probably send bad request to get TZ-oset.
+          
+          8fe177e1-4db9-4fd3-bee0-5099ae15c1a2
       */
       
       /* HACK START */
       sos = 1; // server TZ Offset 1 hour
       osh = date.getTimezoneOffset() / 60 + sos;
-      date.setHours(date.getHours() - osh)
+      date.setHours(date.getHours() + osh);
       date = new Date(date);
       os = '+01:00';  // Use Fixed NL Offset (needs lookup fix)
       /* HACK END */
