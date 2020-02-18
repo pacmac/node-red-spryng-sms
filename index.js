@@ -154,19 +154,19 @@ module.exports = function(RED) {
     var node = this;
     
     if(debug) console.log('@@ SPRYNG-SMS CONFIG:\n',JSON.stringify(config,null,2));
-    this.config = config;
+    node.config = config;
     
-    // for(var key in config){this[key] = config[key];}
+    // for(var key in config){node[key] = config[key];}
     
-    if(this.config.token) const token = `Bearer ${this.config.token}`;
-    const token = `Bearer ${process.env.spryng_token}`;
+    if(node.config.token) var token = `Bearer ${node.config.token}`;
+    else token = `Bearer ${process.env.spryng_token}`;
     
     RED.nodes.createNode(node,config);
     node.on('input', function(msg) {
       if(msg.payload.debug) debug = true;
       var action = msg.topic;
-      if(action=='send') send(this,msg);
-      else if(action=='balance') balance(this,msg);
+      if(action=='send') send(node,msg);
+      else if(action=='balance') balance(node,msg);
     });
   
   }
