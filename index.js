@@ -1,7 +1,6 @@
 module.exports = function(RED) {
 
   var debug = false;
-
   var request = require('request');
   const cl = console.log;
   
@@ -69,6 +68,7 @@ module.exports = function(RED) {
       });
     }
 
+    // Cancel a msg.payload.message_uuid
     function cancel(node,msg){
 
       var options = {
@@ -98,7 +98,7 @@ module.exports = function(RED) {
       
     }
 
-
+    // Send a Message
     function send(node,msg){
     
       msg.payload.recipients = msg.payload.recipients.split(',');
@@ -114,10 +114,10 @@ module.exports = function(RED) {
         
         body: JSON.stringify({
           "body"          : msg.payload.body || '',
-          "encoding"      : msg.payload.encoding || node.encoding,
-          "originator"    : msg.payload.originator || node.originator,
+          "encoding"      : msg.payload.encoding || node.config.encoding,
+          "originator"    : msg.payload.originator || node.config.originator,
           "recipients"    : msg.payload.recipients || [],
-          "route"         : msg.payload.route || node.route,
+          "route"         : msg.payload.route || node.config.route,
           "scheduled_at"  : atomDate(msg.payload.scheduled_at) || atomDate()
         })
         
@@ -137,6 +137,7 @@ module.exports = function(RED) {
         
         node.send({
           payload : {
+            
             body        : JSON.parse(response.body),
             recipients  : msg.payload.recipients
           },
@@ -153,11 +154,11 @@ module.exports = function(RED) {
     var node = this;
     
     if(debug) console.log('@@ SPRYNG-SMS CONFIG:\n',JSON.stringify(config,null,2));
-    for(var key in config){
-      this[key] = config[key];
-    }
+    this.config = config;
     
-    //if(this.token) const token = `Bearer ${this.token}`;
+    // for(var key in config){this[key] = config[key];}
+    
+    if(this.config.token) const token = `Bearer ${this.config.token}`;
     const token = `Bearer ${process.env.spryng_token}`;
     
     RED.nodes.createNode(node,config);
