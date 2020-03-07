@@ -8,16 +8,22 @@ module.exports = function(RED) {
 
     function atomDate(date){
       
+      const hack = false;
+      
       function pad(val){
         return val.toString().padStart(2,'0');
       }
       
       date = date || new Date();
+      
+      // sign for UTC is always reversed.
       var raw = (date.getTimezoneOffset()/60).toString();
-      var sign = raw.slice(0,1);
+      var sign = {'+':'-','-':'+'}[raw.slice(0,1)];
+      
       var osh = pad(raw.slice(1));
       var osm = pad((date.getTimezoneOffset()%60).toString());
       var os = `${sign}${osh}:${osm}`
+      
       
       /* 
           '2020-01-17T19:34:18-08:00'
@@ -28,11 +34,13 @@ module.exports = function(RED) {
       */
       
       /* HACK START */
-      sos = 1; // server TZ Offset 1 hour
-      osh = date.getTimezoneOffset() / 60 + sos;
-      date.setHours(date.getHours() + osh);
-      date = new Date(date);
-      os = '+01:00';  // Use Fixed NL Offset (needs lookup fix)
+      if(hack){
+        sos = 1; // server TZ Offset 1 hour
+        osh = date.getTimezoneOffset() / 60 + sos;
+        date.setHours(date.getHours() + osh);
+        date = new Date(date);
+        os = '+01:00';  // Use Fixed NL Offset (needs lookup fix)
+      }
       /* HACK END */
       
       var atom = `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}${os}`
@@ -103,6 +111,9 @@ module.exports = function(RED) {
     
       msg.payload.recipients = msg.payload.recipients.split(',');
       
+      // use atomDate() for schedule.
+      var adate = atomDate(msg.payload.scheduled_at || null);
+      
       var options = {
         'method'          : 'POST',
         'url'             : 'https://rest.spryngsms.com/v1/messages',
@@ -118,7 +129,7 @@ module.exports = function(RED) {
           "originator"    : msg.payload.originator || node.config.originator,
           "recipients"    : msg.payload.recipients || [],
           "route"         : msg.payload.route || node.config.route,
-          "scheduled_at"  : atomDate(msg.payload.scheduled_at) || atomDate()
+          "scheduled_at"  : adate
         })
         
       };
