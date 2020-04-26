@@ -1,6 +1,6 @@
 {
   "name": "node-red-spryng-sms",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Spryng SMS Service",
   "main": "index.html",
   "scripts": {
